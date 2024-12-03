@@ -1,5 +1,5 @@
 {
   "description": "Load direnv and mask variables on GitHub Actions",
   "homepage": "https://github.com/iloveitaly/github-action-direnv-load-and-mask",
-  "keywords": ["direnv", "github-actions", "environment"],]
+  "keywords": ["direnv", "github-actions", "environment"]
 }

@@ -4,6 +4,8 @@ This action loads environment variables from direnv and automatically masks sens
 
 The primary downside of using direnv to manage secrets is they are *not* masked by default. This action attempts to mask secrets in the environment with a `mask_all` in case you want all secrets hidden by default.
 
+[This was extracted from this python repo](https://github.com/iloveitaly/python-starter-template), if you are looking for an example of how to integrate this into your project.
+
 ## Features
 
 - Automatically loads `.envrc` files using `direnv`

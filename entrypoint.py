@@ -74,6 +74,9 @@ def is_safe_value(value):
         "true",
         "false",
         "random",
+        "server",
+        "build",
+        "index",
     ]
 
     if any(word == value.lower() for word in common_words):

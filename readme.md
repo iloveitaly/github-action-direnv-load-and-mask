@@ -18,6 +18,7 @@ The primary downside of using direnv to manage secrets is they are *not* masked 
   - Values with common secret suffixes (`_KEY`, `_TOKEN`, `_SECRET`, etc)
   - Environment variables starting with `OP_` or `DIRENV_`
 - Option to mask all environment variables
+
 ## Usage
 
 
@@ -36,7 +37,7 @@ steps:
 | Name | Description | Required | Default |
 |------|-------------|----------|---------|
 | `mask_all` | Mask all environment variables by default | false | true |
-
+| `environment_allowlist` | Comma-separated list of environment variables that should not be masked | false | |
 ## Requirements
 
 The action will automatically install:

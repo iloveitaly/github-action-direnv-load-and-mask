@@ -10,6 +10,12 @@ parser.add_argument(
     default=False,
     help="Mask all environment variables",
 )
+parser.add_argument(
+    "--allow",
+    type=lambda s: [v.strip() for v in s.split(",")] if s else [],
+    default=[],
+    help="Comma-separated list of variable names to whitelist",
+)
 args = parser.parse_args()
 
 # Define the patterns to match specific types of values
@@ -55,6 +61,7 @@ def add_mask(key, value):
 
 
 def is_safe_value(value):
+    # TODO maybe I could pull these words from some engineer dictionary? cspell?
     common_words = [
         "test",
         "production",
@@ -96,6 +103,11 @@ env_vars = json.load(sys.stdin)
 for key, value in env_vars.items():
     # empty values are intentionally not skipped and will result in a mask warning
     # empty ENV values should be rare and should be loud if they are
+
+    # Skip masking if key is in allowed list
+    if key in args.allow:
+        print(f"Skipping mask for allowed key: {key}")
+        continue
 
     # Convert key to uppercase for comparison
     key_upper = key.upper()

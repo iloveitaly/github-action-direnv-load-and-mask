@@ -1,6 +1,7 @@
 name: 'Load Direnv Environment and Mask Secrets'
 description: "Load Direnv Environment and Mask Secrets conforming to commonly used secret formats"
 author: 'Michael Bianco'
+
 branding:
   icon: 'box'
   color: 'green'
@@ -12,6 +13,9 @@ inputs:
     description: "Should all environment variables be masked by default"
     required: false
     default: 'true'
+  environment_allowlist:
+    description: "Comma-separated list of environment variables that should not be masked"
+    required: false
 
 runs:
   using: 'composite'
@@ -52,4 +56,4 @@ runs:
         direnv allow . && direnv export gha >> "$GITHUB_ENV"
 
         # you cannot source GITHUB_ENV, it uses a syntax which is *just* different enough from the shell that it fails
-        direnv export json | python ${{ github.action_path }}/entrypoint.py --all=${{ inputs.mask_all }}
+        direnv export json | python ${{ github.action_path }}/entrypoint.py --all=${{ inputs.mask_all }} --allow=${{ inputs.environment_allowlist }}

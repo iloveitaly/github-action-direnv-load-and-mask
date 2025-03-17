@@ -21,6 +21,7 @@ The primary downside of using direnv to manage secrets is they are *not* masked 
 
 ## Usage
 
+Mask everything:
 
 ```yml
 steps:
@@ -30,6 +31,22 @@ steps:
     uses: iloveitaly/direnv-export-and-mask@master
     with:
       mask_all: 'true' # Optional, defaults to true
+```
+
+Mask everything, but keep some specific variables we know are safe:
+
+```
+steps:
+  - uses: iloveitaly/github-action-direnv-load-and-mask@master
+    with:
+      environment_allowlist: >
+        PYTHON_TEST_SERVER_HOST,
+        JAVASCRIPT_SERVER_HOST,
+        VITE_PYTHON_URL,
+        OPENAPI_JSON_PATH,
+        TMP_DIRECTORY,
+        PATH,
+        PLAYWRIGHT_RESULT_DIRECTORY
 ```
 
 ## Inputs

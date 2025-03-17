@@ -61,6 +61,10 @@ def add_mask(key, value):
 
 
 def is_safe_value(value):
+    # if it's empty, it's safe
+    if not value:
+        return True
+
     # TODO maybe I could pull these words from some engineer dictionary? cspell?
     common_words = [
         "test",
@@ -84,6 +88,7 @@ def is_safe_value(value):
         "server",
         "build",
         "index",
+        "UTF-8",
     ]
 
     if any(word == value.lower() for word in common_words):

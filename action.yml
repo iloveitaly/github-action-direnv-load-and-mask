@@ -56,4 +56,4 @@ runs:
         direnv allow . && direnv export gha >> "$GITHUB_ENV"
 
         # you cannot source GITHUB_ENV, it uses a syntax which is *just* different enough from the shell that it fails
-        direnv export json | python ${{ github.action_path }}/entrypoint.py --all=${{ inputs.mask_all }} --allow=${{ inputs.environment_allowlist }}
+        direnv export json | python ${{ github.action_path }}/entrypoint.py --all=${{ inputs.mask_all }} --allow="${{ inputs.environment_allowlist }}"

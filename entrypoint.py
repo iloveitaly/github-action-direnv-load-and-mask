@@ -88,7 +88,7 @@ def is_safe_value(value):
         "server",
         "build",
         "index",
-        "UTF-8",
+        "utf-8",
     ]
 
     if any(word == value.lower() for word in common_words):

@@ -35,7 +35,7 @@ steps:
 
 Mask everything, but keep some specific variables we know are safe:
 
-```
+```yml
 steps:
   - uses: iloveitaly/github-action-direnv-load-and-mask@master
     with:

@@ -28,7 +28,7 @@ steps:
   - uses: actions/checkout@v3
 
   - name: Load environment and mask secrets
-    uses: iloveitaly/direnv-export-and-mask@master
+    uses: iloveitaly/github-action-direnv-load-and-mask@master
     with:
       mask_all: 'true' # Optional, defaults to true
 ```

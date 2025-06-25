@@ -52,11 +52,18 @@ runs:
 
     - name: "Evaluate Direnv & Mask Secrets"
       shell: bash
-      run: direnv allow . && direnv export gha >> "$GITHUB_ENV"
-    
-    - name: "Mask Secrets"
-      shell: bash
       run: |
+        # direnv will never return a non-zero exit code, so we need to check the output to determine if it was successful
+        if direnv allow . 2>&1 | grep -q "direnv: error"; then
+          echo "::error::direnv failed to load environment, check the logs for more information"
+          exit 1
+        fi
+        
+        direnv export gha >> "$GITHUB_ENV"
+    
         # you cannot source GITHUB_ENV, it uses a syntax which is *just* different enough from the shell that it fails
         # because of this, we need to export a JSON representation of the environment variables to parse and then determine which ones to mask
         direnv export json | python ${{ github.action_path }}/entrypoint.py --all=${{ inputs.mask_all }} --allow="${{ inputs.environment_allowlist }}"
+
+        # we run the allow & masking operation in the same bash block intentionally. If we didn't, the secrets would be exposed in the logs of the bash block
+        # which executes the json export & masking operation.

@@ -57,7 +57,7 @@ runs:
 
     - shell: bash
       run: |
-        : Evaluate Direnv & Mask Secrets
+        : Evaluate Direnv and Mask Secrets
 
         # `direnv allow .` will never return a non-zero exit code and doesn't mutate the shell environment if shell hooks are not installed
         # this simply allows direnv to load the .envrc file in the next `direnv` commands

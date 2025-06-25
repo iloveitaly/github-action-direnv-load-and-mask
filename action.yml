@@ -52,8 +52,11 @@ runs:
 
     - name: "Evaluate Direnv & Mask Secrets"
       shell: bash
+      run: direnv allow . && direnv export gha >> "$GITHUB_ENV"
+    
+    - name: "Mask Secrets"
+      shell: bash
       run: |
-        direnv allow . && direnv export gha >> "$GITHUB_ENV"
-
         # you cannot source GITHUB_ENV, it uses a syntax which is *just* different enough from the shell that it fails
+        # because of this, we need to export a JSON representation of the environment variables to parse and then determine which ones to mask
         direnv export json | python ${{ github.action_path }}/entrypoint.py --all=${{ inputs.mask_all }} --allow="${{ inputs.environment_allowlist }}"

@@ -107,7 +107,7 @@ env_vars = json.load(sys.stdin)
 # Iterate over all variables from JSON input
 for key, value in env_vars.items():
     # empty values are intentionally not skipped and will result in a mask warning
-    # empty ENV values should be rare and should be loud if they are
+    # empty ENV values should be rare and should be logged loudly if they are
 
     # Skip masking if key is in allowed list
     if key in args.allow:

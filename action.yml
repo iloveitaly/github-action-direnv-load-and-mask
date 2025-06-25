@@ -53,13 +53,13 @@ runs:
     - name: "Evaluate Direnv & Mask Secrets"
       shell: bash
       run: |
-        # direnv will never return a non-zero exit code, so we need to check the output to determine if it was successful
-        if direnv allow . 2>&1 | grep -q "direnv: error"; then
-          echo "::error::direnv failed to load environment, check the logs for more information"
+        # `direnv allow .` will never return a non-zero exit code and doesn't do anything if the shell hooks are not installed
+        # because of this, we use `export` to push all environment variables to GITHUB_ENV and then from here on out assume direnv
+        # can successfully execute the .envrc file
+        if ! direnv export gha >> "$GITHUB_ENV"; then
+          echo "::error::direnv failed to export environment variables, check the logs for more information"
           exit 1
         fi
-        
-        direnv export gha >> "$GITHUB_ENV"
     
         # you cannot source GITHUB_ENV, it uses a syntax which is *just* different enough from the shell that it fails
         # because of this, we need to export a JSON representation of the environment variables to parse and then determine which ones to mask

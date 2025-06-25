@@ -35,9 +35,9 @@ runs:
       shell: bash
       run: curl -sfL https://direnv.net/install.sh | bash
 
-    - name: "Check python installation"
-      shell: bash
+    - shell: bash
       run: |
+        : Check python installation
         if command -v python3 &> /dev/null; then
           echo "python_exists=true" >> "$GITHUB_OUTPUT"
         else

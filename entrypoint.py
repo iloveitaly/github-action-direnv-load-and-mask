@@ -104,6 +104,9 @@ def is_safe_value(value):
 # Read JSON from stdin
 env_vars = json.load(sys.stdin)
 
+# Create a set of values from allowed keys
+allowed_values = {str(env_vars[key]) for key in args.allow if key in env_vars}
+
 # Iterate over all variables from JSON input
 for key, value in env_vars.items():
     # empty values are intentionally not skipped and will result in a mask warning
@@ -112,6 +115,13 @@ for key, value in env_vars.items():
     # Skip masking if key is in allowed list
     if key in args.allow:
         print(f"Skipping mask for allowed key: {key}")
+        continue
+
+    # Skip masking if value is in allowed_values (from other whitelisted keys)
+    if str(value) in allowed_values:
+        print(
+            f"Skipping mask for key '{key}' because its value is shared with a whitelisted key."
+        )
         continue
 
     # Convert key to uppercase for comparison

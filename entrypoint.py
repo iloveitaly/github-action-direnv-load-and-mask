@@ -106,6 +106,7 @@ env_vars = json.load(sys.stdin)
 
 # Create a set of values from allowed keys
 allowed_values = {str(env_vars[key]) for key in args.allow if key in env_vars}
+seen_whitelisted_values = set()
 
 # Iterate over all variables from JSON input
 for key, value in env_vars.items():
@@ -114,7 +115,13 @@ for key, value in env_vars.items():
 
     # Skip masking if key is in allowed list
     if key in args.allow:
-        print(f"Skipping mask for allowed key: {key}")
+        if str(value) in seen_whitelisted_values:
+            print(
+                f"Skipping mask for allowed key: {key} (Note: its value was already whitelisted by a previous variable)"
+            )
+        else:
+            print(f"Skipping mask for allowed key: {key}")
+            seen_whitelisted_values.add(str(value))
         continue
 
     # Skip masking if value is in allowed_values (from other whitelisted keys)

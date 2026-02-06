@@ -17,6 +17,9 @@ The primary downside of using direnv to manage secrets is they are *not* masked 
   - High entropy strings
   - Values with common secret suffixes (`_KEY`, `_TOKEN`, `_SECRET`, etc)
   - Environment variables starting with `OP_` or `DIRENV_`
+- Automatically whitelists:
+  - `PATH` and `TZ` environment variables
+  - Any environment variable whose value is a valid path on the local filesystem
 - Option to mask all environment variables
 
 ## Usage

@@ -19,6 +19,9 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+# default whitelisted keys
+args.allow.extend(["PATH", "TZ"])
+
 # Define the patterns to match specific types of values
 patterns = [
     re.compile(r"sk-\S+"),  # Matches sk-* values
@@ -137,6 +140,11 @@ for key, value in env_vars.items():
         print(f"Skipping mask for key '{key}' because its value is a valid filesystem path.")
         continue
 
+    # Skip masking if the value is a safe/common value
+    if is_safe_value(str(value)):
+        print(f"Skipping mask for key '{key}' because its value is a common safe value.")
+        continue
+
     # Convert key to uppercase for comparison
     key_upper = key.upper()
 
@@ -149,8 +157,5 @@ for key, value in env_vars.items():
         continue
 
     if args.all:
-        if is_safe_value(str(value)):
-            print("Key value is safe, not masking.", key)
-        else:
-            print("Key not masked by default, masking because of --all.", key)
-            add_mask(key, str(value))
+        print("Key not masked by default, masking because of --all.", key)
+        add_mask(key, str(value))

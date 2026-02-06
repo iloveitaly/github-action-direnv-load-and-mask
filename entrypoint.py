@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 import re
 import sys
 
@@ -129,6 +130,11 @@ for key, value in env_vars.items():
         print(
             f"Skipping mask for key '{key}' because its value is shared with a whitelisted key."
         )
+        continue
+
+    # Skip masking if the value is a valid filesystem path
+    if os.path.exists(str(value)):
+        print(f"Skipping mask for key '{key}' because its value is a valid filesystem path.")
         continue
 
     # Convert key to uppercase for comparison

@@ -19,7 +19,7 @@ The primary downside of using direnv to manage secrets is they are *not* masked 
   - Environment variables starting with `OP_` or `DIRENV_`
 - Automatically whitelists:
   - `PATH` and `TZ` environment variables
-  - Any environment variable whose value is a valid path on the local filesystem
+  - Any environment variable whose value is a valid path that **exists** on the local filesystem
 - Option to mask all environment variables
 
 ## Usage
@@ -73,3 +73,7 @@ This assumes you have a `.envrc` file in your repository root.
 2. Loads environment variables from direnv
 3. Exports variables to GitHub Actions environment
 4. Automatically detects and masks sensitive values in logs using pattern matching
+
+## Limitations
+
+Paths that do not currently exist on the filesystem (e.g. `TEST_RESULTS_DIRECTORY` or other output folders created during the workflow) cannot be automatically detected as paths. If these variables are being masked incorrectly, you must manually add them to the `environment_allowlist`.

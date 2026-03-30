@@ -69,6 +69,9 @@ def is_safe_value(value):
     if not value:
         return True
 
+    # strip whitespace to avoid issues with trailing spaces in .envrc
+    value = str(value).strip()
+
     # TODO maybe I could pull these words from some engineer dictionary? cspell?
     common_words = [
         "test",
@@ -98,8 +101,8 @@ def is_safe_value(value):
     if any(word == value.lower() for word in common_words):
         return True
 
-    # is this a 4 digit number or less? This generally represents a port
-    if str(value).isdigit() and len(value) <= 4:
+    # is this a 6 digit number or less? This generally represents a port or short numeric ID
+    if value.isdigit() and len(value) <= 6:
         return True
 
     return False
